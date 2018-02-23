@@ -9,9 +9,9 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 public class TicTacToeBoard extends JPanel {
+	boolean Oturn = false;
 	ArrayList<drawX> xList = new ArrayList<drawX>();
 	ArrayList<drawO> OList = new ArrayList<drawO>();
-	boolean Oturn = false;
 	int xCoord1 = 200;
 	int xCoord2 = 400;
 	int yCoord1 = 200;
@@ -28,9 +28,9 @@ public class TicTacToeBoard extends JPanel {
 		Font myFont = new Font("Comic Sans MS", Font.BOLD, 18);
 		g.setColor(Color.black);
 		g.setFont(myFont);
-		g.drawString("Nicks TicTacToe Board",40,((10-myFont.getSize()/2 + myFont.getSize())));
-		g.drawString("Click on a square in order to place",0,((320-myFont.getSize()/2 + myFont.getSize())));
-		g.drawString("Your X or O. X goes first",0,((340-myFont.getSize()/2 + myFont.getSize())));
+		g.drawString("Nicks TicTacToe Board",180,((20-myFont.getSize()/2 + myFont.getSize())));
+		g.drawString("Click on a square in order to place",180,((580-myFont.getSize()/2 + myFont.getSize())));
+		g.drawString("Your X or O. X goes first",180,((600-myFont.getSize()/2 + myFont.getSize())));
 		Graphics2D g2 = (Graphics2D) g;
 		
 		g2.draw(new Line2D.Double( xCoord1, 60, xCoord1, 550));
@@ -39,18 +39,16 @@ public class TicTacToeBoard extends JPanel {
 		g2.draw(new Line2D.Double( 10, yCoord2, 600, yCoord2));
 		
 		
-		
+		for (TicTacToeBoard.drawO thisO : OList) {
+			
+			g.drawString("O", thisO.xCoord, thisO.yCoord);
+			Oturn = false;
+		}
 		for (TicTacToeBoard.drawX thisX : xList) {
 			
 			g.drawString("X", thisX.xCoord, thisX.yCoord);
 		
-		for (TicTacToeBoard.drawO thisO : OList) {
-				
-				g.drawString("O", thisO.xCoord, thisO.yCoord);
-			
 		
-			
-		}
 		
 			
 		}
@@ -66,6 +64,7 @@ public class TicTacToeBoard extends JPanel {
 		int yCoord = 200;
 		
 		public drawX(int xCoord ,int yCoord) {
+			Oturn=false;
 			this.xCoord = xCoord;
 			this.yCoord = yCoord;
 		}
@@ -88,84 +87,73 @@ public class TicTacToeBoard extends JPanel {
 			//top left
 			System.out.println(e.getX() + " " + e.getY());
 			if (e.getX() < xCoord1 && e.getY() < yCoord1) {
-			drawX x = new drawX(50,90);
+			drawX x = new drawX(xCoord1-100,yCoord1-75);
 			System.out.println("test");
-			Oturn = false;
 			xList.add(x);
 			repaint();
 			}
 			//top middle
 			if (e.getX() > xCoord1 && e.getY() < yCoord1 && e.getX() < xCoord2) {
 				if (Oturn = false) {
-				drawX x = new drawX(130,90);
+				drawX x = new drawX(xCoord1+100,yCoord1-75);
 				System.out.println("Player 2's turn");
 				System.out.println(Oturn);
 				xList.add(x);
-				Oturn = false;
-				repaint();
-				}
-				if (Oturn = true) {
-					drawO o = new drawO(130,90);
+				repaint();}
+				else if (Oturn = true) {
+					drawO o = new drawO(xCoord1+100,yCoord1-75);
 					System.out.println("Player 1's turn");
 					System.out.println(Oturn);
 					OList.add(o);
 					repaint();
-					Oturn = false;
 				}
 			}
 			//top right
 			if (e.getX() > xCoord2 && e.getY() < yCoord1) {
-				drawX x = new drawX(210,90);
+				drawX x = new drawX(xCoord2+100,yCoord1-75);
 				System.out.println("test");
 				xList.add(x);
-				Oturn = true;
 				repaint();
 				}
 			//middle left
 			if (e.getX() < xCoord1 && e.getY() > yCoord1 && e.getY() < yCoord2) {
-				drawX x = new drawX(50,180);
+				drawX x = new drawX(xCoord1-100,yCoord1+95);
 				System.out.println("test");
 				xList.add(x);
-				Oturn = true;
 				repaint();
 				}
 			//middle middle
 			if (e.getX() > xCoord1 && e.getY() > yCoord1 && e.getX() < xCoord2 && e.getY() < yCoord2 ) {
-				drawX x = new drawX(140,180);
+				drawX x = new drawX(xCoord1+100,yCoord1+95);
 				System.out.println("test");
 				xList.add(x);
-				Oturn = true;
 				repaint();
 				}
 			//middle right
 			if (e.getX() > xCoord2 && e.getY() > yCoord1 && e.getY() < yCoord2) {
-				drawX x = new drawX(220,180);
+				drawX x = new drawX(xCoord2+100,yCoord1+95);
 				System.out.println("test");
 				xList.add(x);
-				Oturn = true;
 				repaint();
 				}
 			//bottom left
 			if (e.getX() < xCoord1 && e.getY() > yCoord2) {
-				drawX x = new drawX(40,260);
+				drawX x = new drawX(xCoord1-100,yCoord2+75);
 				System.out.println("test");
-				Oturn = true;
 				xList.add(x);
 				repaint();
 				}
 			//bottom middle
 			if (e.getX() > xCoord1 && e.getY() > yCoord2 && e.getX() < xCoord2 ) {
-				drawX x = new drawX(140,260);
+				drawX x = new drawX(xCoord1+100,yCoord2+75);
 				System.out.println("test");
-				Oturn = true;
 				xList.add(x);
 				repaint();
 				}
 			//bottom right
 			if (e.getX() > xCoord2 && e.getY() > yCoord2) {
-				drawX x = new drawX(220,260);
+				drawX x = new drawX(xCoord2+100,yCoord2+75);
 				System.out.println("test");
-				Oturn = true;
 				xList.add(x);
 				repaint();
 				}
@@ -197,4 +185,3 @@ public class TicTacToeBoard extends JPanel {
 			
 		}
 	}
-
