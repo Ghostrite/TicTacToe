@@ -10,6 +10,8 @@ import java.util.List;
 
 import javax.swing.JPanel;
 public class TicTacToeBoard extends JPanel {
+	
+	char again = 'y';
 	int Oturn = 0;
 	ArrayList<drawX> xList = new ArrayList<drawX>();
 	ArrayList<drawO> OList = new ArrayList<drawO>();
@@ -30,18 +32,12 @@ public class TicTacToeBoard extends JPanel {
 	}
 	public void paintComponent(Graphics g) {
 		Font myFont = new Font("Comic Sans MS", Font.BOLD, 18);
+		Font myFont2 = new Font("Comic Sans MS", Font.BOLD, 36);
 		g.setColor(Color.black);
 		g.setFont(myFont);
 		g.drawString("Nicks TicTacToe Board",180,((20-myFont.getSize()/2 + myFont.getSize())));
 		g.drawString("Click on a square in order to place",180,((580-myFont.getSize()/2 + myFont.getSize())));
 		g.drawString("your X or O. X goes first.",180,((600-myFont.getSize()/2 + myFont.getSize())));
-		if (Oturn == 0) {
-		g.drawString("X's turn to play.",180,((620-myFont.getSize()/2 + myFont.getSize())));
-		}
-		else{
-			g.drawString("O's turn to play.",180,((620-myFont.getSize()/2 + myFont.getSize())));
-			
-			}
 		Graphics2D g2 = (Graphics2D) g;
 		
 		g2.draw(new Line2D.Double( xCoord1, 60, xCoord1, 550));
@@ -69,10 +65,33 @@ public class TicTacToeBoard extends JPanel {
 				) {
 			
 				System.out.println("X wins");
-				
-				
-			}
+		if (xLogList.contains("top right") && xLogList.contains("top left") && xLogList.contains("top middle")){
+			g2.draw(new Line2D.Double(xCoord1-100, yCoord1-85, xCoord2+105, yCoord1-85));
+		}
+		if (xLogList.contains("top right") && xLogList.contains("middle right") && xLogList.contains("bottom right")) {
+			g2.draw(new Line2D.Double(xCoord2+105, yCoord1-85, xCoord2+105, yCoord2+75));
+		}
+		if(xLogList.contains("top right") && xLogList.contains("middle middle") && xLogList.contains("bottom left")) {
+			g2.draw(new Line2D.Double(xCoord2+105, yCoord1-85, xCoord1-100, yCoord2+80));
+		}
+		if(xLogList.contains("top left") && xLogList.contains("middle left") && xLogList.contains("bottom left")) {
+			g2.draw(new Line2D.Double(xCoord1-95, yCoord1-85, xCoord1-95, yCoord2+80));
+		}
+		if(xLogList.contains("top left") && xLogList.contains("middle middle") && xLogList.contains("bottom right")) {
+			g2.draw(new Line2D.Double(xCoord1-95, yCoord1-85, xCoord2+105, yCoord2+75));
+		}
+		if(xLogList.contains("middle left") && xLogList.contains("middle middle") && xLogList.contains("middle right")) {
+			g2.draw(new Line2D.Double(xCoord1-95, yCoord1+85, xCoord2+105, yCoord1+85));
+		}
+		if(xLogList.contains("top middle") && xLogList.contains("middle middle") && xLogList.contains("bottom middle")) {
+			g2.draw(new Line2D.Double(xCoord1+105, yCoord1-85, xCoord1+105, yCoord2+85));
+		}
+		if(xLogList.contains("bottom left") && xLogList.contains("bottom middle") && xLogList.contains("bottom right")) {
+			g2.draw(new Line2D.Double(xCoord1-105, yCoord2+70, xCoord2+105, yCoord2+70));
+		}
 		
+		g.drawString("X's WINS!.",180,((645-myFont2.getSize()/2 + myFont2.getSize())));
+		}
 		
 
 		if (oLogList.contains("top right") && oLogList.contains("top left") && oLogList.contains("top middle") || 
@@ -86,13 +105,34 @@ public class TicTacToeBoard extends JPanel {
 				) {
 			
 			System.out.println("O wins");
-				
+			if (oLogList.contains("top right") && oLogList.contains("top left") && oLogList.contains("top middle")){
+				g2.draw(new Line2D.Double(xCoord1-100, yCoord1-85, xCoord2+105, yCoord1-85));
+			}
+			if (oLogList.contains("top right") && oLogList.contains("middle right") && oLogList.contains("bottom right")) {
+				g2.draw(new Line2D.Double(xCoord2+105, yCoord1-85, xCoord2+105, yCoord2+75));
+			}
+			if(oLogList.contains("top right") && oLogList.contains("middle middle") && oLogList.contains("bottom left")) {
+				g2.draw(new Line2D.Double(xCoord2+105, yCoord1-85, xCoord1-100, yCoord2+80));
+			}
+			if(oLogList.contains("top left") && oLogList.contains("middle left") && oLogList.contains("bottom left")) {
+				g2.draw(new Line2D.Double(xCoord1-95, yCoord1-85, xCoord1-95, yCoord2+80));
+			}
+			if(oLogList.contains("top left") && oLogList.contains("middle middle") && oLogList.contains("bottom right")) {
+				g2.draw(new Line2D.Double(xCoord1-95, yCoord1-85, xCoord2+105, yCoord2+75));
+			}
+			if(oLogList.contains("middle left") && oLogList.contains("middle middle") && oLogList.contains("middle right")) {
+				g2.draw(new Line2D.Double(xCoord1-95, yCoord1+85, xCoord2+105, yCoord1+85));
+			}
+			if(oLogList.contains("top middle") && oLogList.contains("middle middle") && oLogList.contains("bottom middle")) {
+				g2.draw(new Line2D.Double(xCoord1+105, yCoord1-85, xCoord1+105, yCoord2+85));
+			}
+			if(oLogList.contains("bottom left") && oLogList.contains("bottom middle") && oLogList.contains("bottom right")) {
+				g2.draw(new Line2D.Double(xCoord1-105, yCoord2+70, xCoord2+105, yCoord2+70));
+			}
+			g.drawString("O's WINS!.",180,((645-myFont2.getSize()/2 + myFont2.getSize())));
 				
 			}
-		//drawX testX = new drawX(200,200);
-		//g.drawString("X", textX.xCoord, textX.yCoord);
-		//drawO testO = new drawO(200,200);
-		//g.drawString("X", textO.xCoord, textO.yCoord);
+		
 	}
 	
 	
