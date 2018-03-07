@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -7,20 +8,30 @@ import java.awt.event.MouseListener;
 import java.awt.geom.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
+
 
 import javax.swing.JPanel;
 public class TicTacToeBoard extends JPanel {
+	private static final Component frame = null;
+
+
+	int Cats = 0;
 	
-	char again = 'y';
+	
 	int Oturn = 0;
 	ArrayList<drawX> xList = new ArrayList<drawX>();
 	ArrayList<drawO> OList = new ArrayList<drawO>();
+	int answer = JOptionPane.showConfirmDialog(frame, "Do you want to play against a CPU?");
+	
 	int xCoord1 = 200;
 	int xCoord2 = 400;
 	int yCoord1 = 200;
 	int yCoord2 = 400;
+	int AI = 0;
 	List<String> xLogList = new ArrayList<String>();
 	List<String> oLogList = new ArrayList<String>();
+	
 	
 	public TicTacToeBoard() {
 		setSize(322,422);
@@ -29,8 +40,12 @@ public class TicTacToeBoard extends JPanel {
 		JacobMouse j = new JacobMouse();
 		addMouseListener(j);
 		
+		
 	}
 	public void paintComponent(Graphics g) {
+		if (answer == JOptionPane.YES_OPTION) {
+		     AI = 1;
+		     }
 		Font myFont = new Font("Comic Sans MS", Font.BOLD, 18);
 		Font myFont2 = new Font("Comic Sans MS", Font.BOLD, 36);
 		g.setColor(Color.black);
@@ -44,15 +59,18 @@ public class TicTacToeBoard extends JPanel {
 		g2.draw(new Line2D.Double( xCoord2, 60, xCoord2, 550));
 		g2.draw(new Line2D.Double( 10, yCoord1, 600, yCoord1));
 		g2.draw(new Line2D.Double( 10, yCoord2, 600, yCoord2));
-		
+		int counterX = 0;
+		int counterO = 0;
 		
 		for (TicTacToeBoard.drawO thisO : OList) {
 			
 			g.drawString("O", thisO.xCoord, thisO.yCoord);
+			counterO = counterO + 1;
 		}
 		for (TicTacToeBoard.drawX thisX : xList) {
 			
-			g.drawString("X", thisX.xCoord, thisX.yCoord);	
+			g.drawString("X", thisX.xCoord, thisX.yCoord);
+			 counterX = counterX + 1;
 		}
 		if (xLogList.contains("top right") && xLogList.contains("top left") && xLogList.contains("top middle") || 
 				xLogList.contains("top right") && xLogList.contains("middle right") && xLogList.contains("bottom right") ||
@@ -89,7 +107,7 @@ public class TicTacToeBoard extends JPanel {
 		if(xLogList.contains("bottom left") && xLogList.contains("bottom middle") && xLogList.contains("bottom right")) {
 			g2.draw(new Line2D.Double(xCoord1-105, yCoord2+70, xCoord2+105, yCoord2+70));
 		}
-		
+		Cats = 1;
 		g.drawString("X's WINS!.",180,((645-myFont2.getSize()/2 + myFont2.getSize())));
 		}
 		
@@ -105,6 +123,8 @@ public class TicTacToeBoard extends JPanel {
 				) {
 			
 			System.out.println("O wins");
+			
+			Cats = 1;
 			if (oLogList.contains("top right") && oLogList.contains("top left") && oLogList.contains("top middle")){
 				g2.draw(new Line2D.Double(xCoord1-100, yCoord1-85, xCoord2+105, yCoord1-85));
 			}
@@ -130,10 +150,19 @@ public class TicTacToeBoard extends JPanel {
 				g2.draw(new Line2D.Double(xCoord1-105, yCoord2+70, xCoord2+105, yCoord2+70));
 			}
 			g.drawString("O's WINS!.",180,((645-myFont2.getSize()/2 + myFont2.getSize())));
-				
+			Cats = 1;
 			}
 		
+		if((counterO == 4 && counterX ==5 && Cats !=1)|| (counterO == 5 && counterX == 4 && Cats !=1)) {
+			g.drawString("Cats game!",180,((645-myFont2.getSize()/2 + myFont2.getSize())));
+			Cats = 1;
+		}
+		if (Cats == 1) {
+			return;
+		}
 	}
+	
+
 	
 	
 	class drawX {
@@ -157,9 +186,12 @@ public class TicTacToeBoard extends JPanel {
 		
 		
 	class JacobMouse implements MouseListener{
+		
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
+			if (Cats == 1) {
+				return;}
 			//top left
 			if (e.getX() < xCoord1 && e.getY() < yCoord1) {
 				if (Oturn == 0 && !oLogList.contains("top left") && !xLogList.contains("top left")) {
@@ -326,6 +358,81 @@ public class TicTacToeBoard extends JPanel {
 					repaint();
 				}
 				}
+				if (AI == 1 && Oturn ==1) {
+				if (!oLogList.contains("bottom right") && !xLogList.contains("bottom right")) {
+					drawO o = new drawO(xCoord2+100,yCoord2+75);
+					System.out.println("Player 1's turn");;
+					Oturn = 0;
+					oLogList.add("bottom right");
+					OList.add(o);
+					repaint();
+			}
+				else if (Oturn == 1 && !oLogList.contains("top right") && !xLogList.contains("top right")) {
+					drawO o = new drawO(xCoord2+100,yCoord1-75);
+					System.out.println("Player 1's turn");;
+					Oturn = 0;
+					oLogList.add("top right");
+					OList.add(o);
+					repaint();
+				}
+				else if (Oturn == 1 && !oLogList.contains("bottom left") && !xLogList.contains("bottom left")) {
+					drawO o = new drawO(xCoord1-100,yCoord2+75);
+					System.out.println("Player 1's turn");;
+					Oturn = 0;
+					oLogList.add("bottom left");
+					OList.add(o);
+					repaint();
+				}
+				else if (Oturn == 1 && !oLogList.contains("middle right") && !xLogList.contains("middle right")) {
+					drawO o = new drawO(xCoord2+100,yCoord1+95);
+					System.out.println("Player 1's turn");;
+					Oturn = 0;
+					oLogList.add("middle right");
+					OList.add(o);
+					repaint();
+				}
+				else if (Oturn == 1 && !oLogList.contains("middle middle") && !xLogList.contains("middle middle")) {
+					drawO o = new drawO(xCoord1+100,yCoord1+95);
+					System.out.println("Player 1's turn");;
+					Oturn = 0;
+					oLogList.add("middle middle");
+					OList.add(o);
+					repaint();
+				}
+				else if (Oturn == 1 && !oLogList.contains("middle left") && !xLogList.contains("middle left")) {
+					drawO o = new drawO(xCoord1-100,yCoord1+95);
+					System.out.println("Player 1's turn");;
+					Oturn = 0;
+					oLogList.add("middle left");
+					OList.add(o);
+					repaint();
+				}
+				else if (Oturn == 1 && !oLogList.contains("bottom middle") && !xLogList.contains("bottom middle")) {
+					drawO o = new drawO(xCoord1+100,yCoord2+75);
+					System.out.println("Player 1's turn");;
+					Oturn = 0;
+					oLogList.add("bottom middle");
+					OList.add(o);
+					repaint();
+				}
+				else if (Oturn == 1 && !oLogList.contains("top middle") && !xLogList.contains("top middle")) {
+					drawO o = new drawO(xCoord1+100,yCoord1-75);
+					System.out.println("Player 1's turn");;
+					Oturn = 0;
+					oLogList.add("top middle");
+					OList.add(o);
+					repaint();
+				}
+				else if (Oturn == 1 && !oLogList.contains("top left") && !xLogList.contains("top left")) {
+					drawO o = new drawO(xCoord1-100,yCoord1-75);
+					System.out.println("Player 1's turn");;
+					Oturn = 0;
+					oLogList.add("top left");
+					OList.add(o);
+					repaint();
+				}
+				}
+			
 		}
 
 		@Override
